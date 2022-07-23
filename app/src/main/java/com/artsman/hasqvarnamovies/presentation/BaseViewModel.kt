@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 abstract class BaseViewModel<A, S, E>: ViewModel(), IViewModel<A, S, E> {
     abstract var initalState: S
-    private val stateHolder : MutableStateFlow<S> = MutableStateFlow(initalState)
-    private val eventHolder : MutableSharedFlow<E?> = MutableSharedFlow()
+    protected val stateHolder : MutableStateFlow<S> = MutableStateFlow(initalState)
+    protected val eventHolder : MutableSharedFlow<E?> = MutableSharedFlow()
 
     override suspend fun onEventConsumed(){
         eventHolder.emit(null)
