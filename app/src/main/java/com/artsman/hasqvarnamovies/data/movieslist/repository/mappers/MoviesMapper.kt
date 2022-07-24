@@ -10,6 +10,13 @@ fun MoviesNetworkModel.toDatabaseModel(): List<MoviesDatabaseModel> {
     }
 }
 
+
+fun MoviesNetworkModel.toDomainModel(): List<Movie> {
+    return this.results.map {
+        Movie(id = it.id, name =  it.original_title, poster = it.poster_path.decorateLink())
+    }
+}
+
 fun MoviesDatabaseModel.toDomainModel(): Movie {
     return Movie(id = this.uid, name = this.name?: "", poster = this.poster)
 }
