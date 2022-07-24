@@ -9,9 +9,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class MoviesListViewModel constructor(private val getMovies: IGetMoviesListUsecase, private val queryMovies: IMovieQueryUseCase): BaseViewModel<Actions, States,Events >() {
+class MoviesListViewModel  @Inject constructor(private val getMovies: IGetMoviesListUsecase, private val queryMovies: IMovieQueryUseCase): BaseViewModel<Actions, States,Events >() {
     override var initalState: States
         get() = States.Loading
         set(value) {}
