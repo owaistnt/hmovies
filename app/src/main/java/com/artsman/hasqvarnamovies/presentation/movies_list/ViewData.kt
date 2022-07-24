@@ -4,6 +4,6 @@ data class ViewData(val movies: List<MoviesViewData>)
 
 typealias Link = String
 typealias Rating = Long
-typealias Id = String
+typealias Id = Long
 
 data class MoviesViewData(val id : Id , val name: String, val poster: Link, val rating: Rating)
