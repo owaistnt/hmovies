@@ -5,10 +5,12 @@ import com.artsman.hasqvarnamovies.data.movieslist.repository.model.Movie
 import com.artsman.hasqvarnamovies.domain.usecase.fetch_movies.IGetMoviesListUsecase
 import com.artsman.hasqvarnamovies.domain.usecase.query_movies.IMovieQueryUseCase
 import com.artsman.hasqvarnamovies.presentation.BaseViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@HiltViewModel
 class MoviesListViewModel constructor(private val getMovies: IGetMoviesListUsecase, private val queryMovies: IMovieQueryUseCase): BaseViewModel<Actions, States,Events >() {
     override var initalState: States
         get() = States.Loading
@@ -38,7 +40,7 @@ class MoviesListViewModel constructor(private val getMovies: IGetMoviesListUseca
 
     private fun List<Movie>.mapToViewData(): List<MoviesViewData> {
         return this.map {
-            MoviesViewData(id = it.id, name = it.name, poster = "", rating = 0)
+            MoviesViewData(id = it.id.toLong(), name = it.name, poster = "", rating = 0)
         }
     }
 }

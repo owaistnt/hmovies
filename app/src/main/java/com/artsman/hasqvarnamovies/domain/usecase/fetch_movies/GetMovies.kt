@@ -2,8 +2,9 @@ package com.artsman.hasqvarnamovies.domain.usecase.fetch_movies
 
 import com.artsman.hasqvarnamovies.data.movieslist.repository.IMovieRepository
 import com.artsman.hasqvarnamovies.isSuccessful
+import javax.inject.Inject
 
-class GetMovies(private val repository: IMovieRepository) : IGetMoviesListUsecase {
+class GetMovies @Inject constructor(private val repository: IMovieRepository) : IGetMoviesListUsecase {
     private var _page = -1
     override suspend fun invoke(page: IGetMoviesListUsecase.Page) {
         if(page == IGetMoviesListUsecase.Page.Start){

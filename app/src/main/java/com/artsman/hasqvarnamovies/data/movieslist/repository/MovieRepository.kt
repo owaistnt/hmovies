@@ -11,8 +11,9 @@ import com.artsman.hasqvarnamovies.successful
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class MovieRepository(private val roomDatabase: RoomAppDatabase) : IMovieRepository{
+class MovieRepository @Inject constructor(private val roomDatabase: RoomAppDatabase) : IMovieRepository{
 
 
     override suspend fun fetchMoviesFromAPI(page: Int): Resource<List<Movie>> {
