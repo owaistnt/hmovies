@@ -12,8 +12,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun SimpleListItem(message: String){
-    Box(Modifier.padding(12.dp, 24.dp)) {
-        Text(style = MaterialTheme.typography.h6, text = message)
+    Box(Modifier.padding(8.dp, 24.dp)) {
+        Text(style = MaterialTheme.typography.subtitle1, text = message)
     }
 }
 

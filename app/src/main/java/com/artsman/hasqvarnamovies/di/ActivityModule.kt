@@ -1,5 +1,6 @@
 package com.artsman.hasqvarnamovies.di
 
+import com.artsman.hasqvarnamovies.data.movieslist.repository.AppCoroutineDispatchers
 import com.artsman.hasqvarnamovies.data.movieslist.repository.IMovieRepository
 import com.artsman.hasqvarnamovies.data.movieslist.repository.MovieRepository
 import com.artsman.hasqvarnamovies.domain.usecase.fetch_movies.GetMovies
@@ -13,11 +14,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ActivityComponent::class)
 class ActivityModule {
+
 
 
 }

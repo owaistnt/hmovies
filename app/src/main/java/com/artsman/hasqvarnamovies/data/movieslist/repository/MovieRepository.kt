@@ -11,9 +11,10 @@ import com.artsman.hasqvarnamovies.successful
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(private val roomDatabase: RoomAppDatabase) : IMovieRepository{
+class MovieRepository @Inject constructor(private val roomDatabase: RoomAppDatabase, private val dispatchers: AppCoroutineDispatchers) : IMovieRepository{
 
 
     override suspend fun fetchMoviesFromAPI(page: Int): Resource<List<Movie>> {
@@ -21,20 +22,26 @@ class MovieRepository @Inject constructor(private val roomDatabase: RoomAppDatab
     }
 
     override suspend fun saveToLocal(movies: List<Movie>) {
-        val moviesForDb = movies.map { it.toDatabaseModel() }
-        roomDatabase.moviesDao().insertAll(*moviesForDb.toTypedArray())
+        withContext(dispatchers.io){
+            val moviesForDb = movies.map { it.toDatabaseModel() }
+            roomDatabase.moviesDao().insertAll(*moviesForDb.toTypedArray())
+        }
     }
 
     override suspend fun clearMovies() {
-        roomDatabase.runInTransaction {
-            val allMovies = roomDatabase.moviesDao().getAll()
-            allMovies.forEach {
-                roomDatabase.moviesDao().delete(it)
+        withContext(dispatchers.io){
+            roomDatabase.runInTransaction {
+                val allMovies = roomDatabase.moviesDao().getAll()
+                allMovies.forEach {
+                    roomDatabase.moviesDao().delete(it)
+                }
             }
         }
     }
 
     override suspend fun getMoviesFromLocalAsync(): Flow<List<Movie>> {
-        return roomDatabase.moviesDao().getAllAsync().map { list -> list.map { it.toDomainModel() } }
+        return withContext(dispatchers.io){
+            return@withContext roomDatabase.moviesDao().getAllAsync().map { list -> list.map { it.toDomainModel() } }
+        }
     }
 }

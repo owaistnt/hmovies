@@ -10,9 +10,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.artsman.hasqvarnamovies.presentation.movies_list.MoviesListViewModel
+import com.artsman.hasqvarnamovies.ui.navigation.MyComposeApp
+import com.artsman.hasqvarnamovies.ui.screens.MoviesListScreen
 import com.artsman.hasqvarnamovies.ui.theme.HasqvarnaMoviesTheme
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -22,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                   MyComposeApp()
                 }
             }
         }

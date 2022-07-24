@@ -3,6 +3,7 @@ package com.artsman.hasqvarnamovies.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.artsman.hasqvarnamovies.data.movieslist.repository.AppCoroutineDispatchers
 import com.artsman.hasqvarnamovies.data.movieslist.repository.IMovieRepository
 import com.artsman.hasqvarnamovies.data.movieslist.repository.MovieRepository
 import com.artsman.hasqvarnamovies.domain.usecase.fetch_movies.GetMovies
@@ -18,6 +19,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -38,13 +40,23 @@ object AppSingletonModule {
 
     @Singleton
     @Provides
-    fun bindMoviesRepository(database: RoomAppDatabase): IMovieRepository{
-        return MovieRepository(roomDatabase = database)
+    fun bindMoviesRepository(database: RoomAppDatabase, dispatchers: AppCoroutineDispatchers): IMovieRepository{
+        return MovieRepository(roomDatabase = database, dispatchers = dispatchers)
     }
 
 
     @Provides
     fun providesQueryMovies(repository: IMovieRepository): IMovieQueryUseCase {
         return QueryMovies(repository)
+    }
+
+    @Provides
+    fun providesAppCoroutineDispatchers(): AppCoroutineDispatchers{
+        return AppCoroutineDispatchers(
+            io = Dispatchers.IO,
+            main = Dispatchers.Main,
+            default = Dispatchers.Default,
+            mainImmediate = Dispatchers.Main.immediate
+        )
     }
 }
