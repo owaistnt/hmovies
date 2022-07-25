@@ -1,5 +1,6 @@
 package com.artsman.hasqvarnamovies.presentation.movies_list
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.artsman.hasqvarnamovies.data.movieslist.repository.model.Movie
 import com.artsman.hasqvarnamovies.domain.usecase.fetch_movies.IGetMoviesListUsecase
@@ -13,12 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MoviesListViewModel  @Inject constructor(private val getMovies: IGetMoviesListUsecase, private val queryMovies: IMovieQueryUseCase): BaseViewModel<Actions, States,Events >() {
+    private val TAG = "MoviesListViewModel";
     override var initalState: States
         get() = States.Loading
         set(value) {}
 
 
     override fun add(action: Actions) {
+        Log.d(TAG, "Action: $action")
         when(action){
             Actions.Start -> viewModelScope.launch {
                 getMovies.invoke(IGetMoviesListUsecase.Page.Start)
