@@ -3,6 +3,7 @@ package com.artsman.hasqvarnamovies.ui.screens
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -33,15 +34,21 @@ fun MoviesListScreen(viewModel: MoviesListViewModel, onItemClicked: (id: Id)-> U
     ) {
         when(state){
             States.Loading -> LoadingView(modifier = Modifier.fillMaxSize(), message = "Setting Up...")
-            is States.Update -> MoviesListComponent((state as States.Update).viewData.movies)
+            is States.Update -> MoviesListComponent((state as States.Update).viewData.movies, onReachingEnd = {
+                //viewModel.add() todo next page
+            })
         }
 
     }
 }
 
 @Composable
-fun MoviesListComponent(movies: List<MoviesViewData>) {
-    LazyColumn{
+fun MoviesListComponent(movies: List<MoviesViewData>, onReachingEnd: ()->Unit) {
+    var listState = rememberLazyListState()
+    if(listState.firstVisibleItemIndex == movies.size-4){
+        onReachingEnd()
+    }
+    LazyColumn(state = listState){
         items(movies, key = {movie -> movie.id}){ m ->
             MovieCard(title = m.name, poster_url = m.poster)
         }
