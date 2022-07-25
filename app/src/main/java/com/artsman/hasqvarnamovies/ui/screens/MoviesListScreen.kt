@@ -1,5 +1,6 @@
 package com.artsman.hasqvarnamovies.ui.screens
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
@@ -8,10 +9,12 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import com.artsman.hasqvarnamovies.presentation.movies_list.Id
 import com.artsman.hasqvarnamovies.presentation.movies_list.MoviesListViewModel
 import com.artsman.hasqvarnamovies.presentation.movies_list.MoviesViewData
 import com.artsman.hasqvarnamovies.presentation.movies_list.States
+import com.artsman.hasqvarnamovies.ui.components.LoadingView
 import com.artsman.hasqvarnamovies.ui.components.MovieCard
 import com.artsman.hasqvarnamovies.ui.components.SimpleListItem
 
@@ -29,7 +32,7 @@ fun MoviesListScreen(viewModel: MoviesListViewModel, onItemClicked: (id: Id)-> U
         }
     ) {
         when(state){
-            States.Loading -> SimpleListItem(message = "Loading")
+            States.Loading -> LoadingView(modifier = Modifier.fillMaxSize(), message = "Setting Up...")
             is States.Update -> MoviesListComponent((state as States.Update).viewData.movies)
         }
 
