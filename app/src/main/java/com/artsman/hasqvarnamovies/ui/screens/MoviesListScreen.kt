@@ -8,12 +8,11 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.artsman.hasqvarnamovies.presentation.movies_list.Id
 import com.artsman.hasqvarnamovies.presentation.movies_list.MoviesListViewModel
 import com.artsman.hasqvarnamovies.presentation.movies_list.MoviesViewData
 import com.artsman.hasqvarnamovies.presentation.movies_list.States
+import com.artsman.hasqvarnamovies.ui.components.MovieCard
 import com.artsman.hasqvarnamovies.ui.components.SimpleListItem
 
 @Composable
@@ -41,7 +40,7 @@ fun MoviesListScreen(viewModel: MoviesListViewModel, onItemClicked: (id: Id)-> U
 fun MoviesListComponent(movies: List<MoviesViewData>) {
     LazyColumn{
         items(movies, key = {movie -> movie.id}){ m ->
-            SimpleListItem(message = m.name)
+            MovieCard(title = m.name, poster_url = m.poster)
         }
     }
 }
