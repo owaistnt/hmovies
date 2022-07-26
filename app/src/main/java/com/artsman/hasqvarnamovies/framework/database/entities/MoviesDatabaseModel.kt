@@ -9,4 +9,7 @@ data class MoviesDatabaseModel(@PrimaryKey val uid: Int,
                                @ColumnInfo(name = "name") val name: String?,
                                @ColumnInfo(name = "poster") val poster: String?,
                                @ColumnInfo(name = "rating") val rating: Long?,
+                               @ColumnInfo(name = "overview") val overview: String?,
+                               @ColumnInfo(name = "adult") val adult: Boolean?,
+
 )

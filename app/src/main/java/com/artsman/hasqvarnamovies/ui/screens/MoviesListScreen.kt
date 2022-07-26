@@ -36,6 +36,8 @@ fun MoviesListScreen(viewModel: MoviesListViewModel, onItemClicked: (id: Id)-> U
             States.Loading -> LoadingView(modifier = Modifier.fillMaxSize(), message = "Setting Up...")
             is States.Update -> MoviesListComponent((state as States.Update).viewData.movies, onReachingEnd = {
                 //viewModel.add() todo next page
+            }, onClick = {
+                onItemClicked(it)
             })
         }
 
@@ -43,14 +45,16 @@ fun MoviesListScreen(viewModel: MoviesListViewModel, onItemClicked: (id: Id)-> U
 }
 
 @Composable
-fun MoviesListComponent(movies: List<MoviesViewData>, onReachingEnd: ()->Unit) {
+fun MoviesListComponent(movies: List<MoviesViewData>, onReachingEnd: ()->Unit, onClick: (Long)->Unit) {
     var listState = rememberLazyListState()
     if(listState.firstVisibleItemIndex == movies.size-4){
         onReachingEnd()
     }
     LazyColumn(state = listState){
         items(movies, key = {movie -> movie.id}){ m ->
-            MovieCard(title = m.name, poster_url = m.poster)
+            MovieCard(title = m.name, poster_url = m.poster, id = m.id, onClick = {
+                onClick(it)
+            })
         }
     }
 }

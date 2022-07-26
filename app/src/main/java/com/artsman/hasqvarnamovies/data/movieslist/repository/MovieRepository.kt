@@ -8,6 +8,7 @@ import com.artsman.hasqvarnamovies.data.movieslist.repository.mappers.toDomainMo
 import com.artsman.hasqvarnamovies.data.movieslist.repository.model.Movie
 import com.artsman.hasqvarnamovies.data.movieslist.repository.network.model.IMoviesListAPI
 import com.artsman.hasqvarnamovies.framework.database.RoomAppDatabase
+import com.artsman.hasqvarnamovies.presentation.movies_list.Id
 import com.artsman.hasqvarnamovies.successful
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapConcat
@@ -46,6 +47,12 @@ class MovieRepository @Inject constructor(private val movieAPI: IMoviesListAPI, 
     override suspend fun getMoviesFromLocalAsync(): Flow<List<Movie>> {
         return withContext(dispatchers.io){
             return@withContext roomDatabase.moviesDao().getAllAsync().map { list -> list.map { it.toDomainModel() } }
+        }
+    }
+
+    override suspend fun getMovieFromLocalSync(movieId: Id): Movie? {
+        return withContext(dispatchers.io){
+            return@withContext roomDatabase.moviesDao().getById(movieId).toDomainModel()
         }
     }
 }

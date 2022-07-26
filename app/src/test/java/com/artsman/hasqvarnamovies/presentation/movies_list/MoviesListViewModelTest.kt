@@ -32,7 +32,7 @@ class MoviesListViewModelTest : ExpectSpec({
 
     val mockGetMovies = mockk<IGetMoviesListUsecase>(relaxed = true)
     val mockQueryMovies = mockk<IMovieQueryUseCase>(relaxed = true)
-    val fakeMovies = listOf<Movie>(Movie(1234, "abc", "SSS"))
+    val fakeMovies = listOf<Movie>(Movie(1234, "abc", "SSS", "abc", false, rating = 12))
 
     beforeTest {
         Dispatchers.setMain(UnconfinedTestDispatcher())
@@ -55,7 +55,7 @@ class MoviesListViewModelTest : ExpectSpec({
         }
         viewModel.onStateChanged().value(this) should beInstanceOf(States.Update::class)
         (viewModel.onStateChanged().value(this) as States.Update).let {
-            it.viewData.movies shouldBe listOf(MoviesViewData(1234, "abc", "SSS",  0))
+            it.viewData.movies shouldBe listOf(MoviesViewData(1234, "abc", "SSS",  12, "abc", false))
         }
     }
 

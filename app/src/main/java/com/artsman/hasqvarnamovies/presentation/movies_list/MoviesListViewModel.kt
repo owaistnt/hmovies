@@ -44,7 +44,7 @@ class MoviesListViewModel  @Inject constructor(private val getMovies: IGetMovies
 
     private fun List<Movie>.mapToViewData(): List<MoviesViewData> {
         return this.map {
-            MoviesViewData(id = it.id.toLong(), name = it.name, poster = it.poster ?: "", rating = 0)
+            MoviesViewData(id = it.id.toLong(), name = it.name, poster = it.poster ?: "", rating = 0, overview = it.overview, adult = it.adult)
         }
     }
 }

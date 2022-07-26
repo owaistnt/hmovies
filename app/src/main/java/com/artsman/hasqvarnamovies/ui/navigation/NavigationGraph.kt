@@ -12,6 +12,10 @@ import com.artsman.hasqvarnamovies.presentation.movies_list.MoviesListViewModel
 import com.artsman.hasqvarnamovies.ui.screens.MoviesListScreen
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import com.artsman.hasqvarnamovies.presentation.movies_detail.MovieDetailViewModel
+import com.artsman.hasqvarnamovies.ui.screens.MoviesDetailScreen
 
 
 fun NavGraphBuilder.addMoviesList(navController: NavController) {
@@ -26,7 +30,30 @@ fun NavGraphBuilder.addMoviesList(navController: NavController) {
         }
         Log.d("Nav", "AddMoviesList: Start")
         MoviesListScreen(viewModel = listViewModel){
-            navController.navigate(Screen.MoviesDetailScreen.route)
+            navController.navigate("movie/$it")
         }
+    }
+}
+
+fun NavGraphBuilder.addMoviesDetail(navController: NavController) {
+    this.composable(route = Screen.MoviesDetailScreen.route,
+    arguments = listOf(
+        navArgument("movieId") {
+            type = NavType.LongType
+        },
+    )) {
+        val movieId = it.arguments?.getLong("movieId")
+        var isVMStarted by remember {
+            mutableStateOf<Boolean>(false)
+        }
+        val listViewModel = hiltViewModel<MovieDetailViewModel>()
+        movieId?.let { id ->
+            if(!isVMStarted){
+                listViewModel.add(com.artsman.hasqvarnamovies.presentation.movies_detail.Actions.Start(id))
+                isVMStarted = true
+            }
+        }
+        Log.d("Nav", "AddMoviesList: Start")
+        MoviesDetailScreen(viewModel = listViewModel)
     }
 }

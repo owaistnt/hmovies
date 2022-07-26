@@ -9,5 +9,6 @@ fun MyComposeApp(){
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screen.MoviesListScreen.route){
         addMoviesList(navController = navController)
+        addMoviesDetail(navController = navController)
     }
 }

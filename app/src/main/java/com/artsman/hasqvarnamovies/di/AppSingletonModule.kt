@@ -10,7 +10,9 @@ import com.artsman.hasqvarnamovies.data.movieslist.repository.MovieRepository
 import com.artsman.hasqvarnamovies.data.movieslist.repository.network.model.IMoviesListAPI
 import com.artsman.hasqvarnamovies.domain.usecase.fetch_movies.GetMovies
 import com.artsman.hasqvarnamovies.domain.usecase.fetch_movies.IGetMoviesListUsecase
+import com.artsman.hasqvarnamovies.domain.usecase.query_movies.IMovieDetail
 import com.artsman.hasqvarnamovies.domain.usecase.query_movies.IMovieQueryUseCase
+import com.artsman.hasqvarnamovies.domain.usecase.query_movies.MovieDetailQuery
 import com.artsman.hasqvarnamovies.domain.usecase.query_movies.QueryMovies
 import com.artsman.hasqvarnamovies.framework.database.RoomAppDatabase
 import com.artsman.hasqvarnamovies.framework.database.buildDatabase
@@ -55,6 +57,11 @@ object AppSingletonModule {
     @Provides
     fun providesQueryMovies(repository: IMovieRepository): IMovieQueryUseCase {
         return QueryMovies(repository)
+    }
+
+    @Provides
+    fun providesQueryMoviesDetial(repository: IMovieRepository): IMovieDetail {
+        return MovieDetailQuery(repository)
     }
 
     @Provides
