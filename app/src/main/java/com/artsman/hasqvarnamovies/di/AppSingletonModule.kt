@@ -3,6 +3,7 @@ package com.artsman.hasqvarnamovies.di
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.artsman.hasqvarnamovies.BuildConfig
 import com.artsman.hasqvarnamovies.data.movieslist.repository.AppCoroutineDispatchers
 import com.artsman.hasqvarnamovies.data.movieslist.repository.IMovieRepository
 import com.artsman.hasqvarnamovies.data.movieslist.repository.MovieRepository
@@ -46,7 +47,8 @@ object AppSingletonModule {
     @Singleton
     @Provides
     fun bindMoviesRepository(database: RoomAppDatabase, dispatchers: AppCoroutineDispatchers, moveAPI: IMoviesListAPI): IMovieRepository{
-        return MovieRepository(roomDatabase = database, dispatchers = dispatchers, movieAPI = moveAPI)
+        return MovieRepository(roomDatabase = database, dispatchers = dispatchers, movieAPI = moveAPI, apiKey = BuildConfig.API_KEY)
+        //Adding API_KEY in local.properties file
     }
 
 

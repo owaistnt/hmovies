@@ -15,13 +15,13 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class MovieRepository @Inject constructor(private val movieAPI: IMoviesListAPI, private val roomDatabase: RoomAppDatabase, private val dispatchers: AppCoroutineDispatchers) : IMovieRepository{
+class MovieRepository @Inject constructor(private val movieAPI: IMoviesListAPI, private val roomDatabase: RoomAppDatabase, private val dispatchers: AppCoroutineDispatchers, private val apiKey: String) : IMovieRepository{
 
 
     override suspend fun fetchMoviesFromAPI(page: Int): Resource<List<Movie>> {
         //return Resource(data = listOf(Movie(1, "Jab We Met", null)), status = Status.Success, error = null)
 
-        val response =  movieAPI.invoke("a3d8be61ee48c0397fa469573112b190")
+        val response =  movieAPI.invoke(apiKey)
         return Resource(response.data?.toDomainModel(), status = response.status, error = response.error)
     }
 
